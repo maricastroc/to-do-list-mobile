@@ -11,9 +11,10 @@ import theme from '../../theme'
 
 interface FilterBarProps {
   onFilter: (value: string) => void
+  onChange: (value: string) => void
 }
 
-export function FilterBar({ onFilter }: FilterBarProps) {
+export function FilterBar({ onFilter, onChange }: FilterBarProps) {
   const [option, setOption] = useState('All')
   const [isFocused, setIsFocused] = useState(false)
 
@@ -64,6 +65,7 @@ export function FilterBar({ onFilter }: FilterBarProps) {
         }}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
+        onChangeText={onChange}
         placeholder="Search Task"
         placeholderTextColor={theme.colors.gray_300}
       />

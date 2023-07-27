@@ -21,10 +21,15 @@ import { FlatList } from 'react-native'
 
 export function Home() {
   const [tasksToRender, setTasksToRender] = useState('all')
+  const [searchValue, setSearchValue] = useState('')
   const { tasksList, finishedTasksList, unfinishedTasksList } =
     useContext(TasksContext)
 
-  console.log(finishedTasksList)
+  function searchTasks(searchValue: string) {
+    return getTasksToRender().filter((task) =>
+      task.toLowerCase().includes(searchValue.toLowerCase()),
+    )
+  }
 
   function getTasksToRender() {
     switch (tasksToRender) {
@@ -54,7 +59,7 @@ export function Home() {
               Created
             </TaskTitleText>
             <TaskTitleCounter>
-              <Counter>1</Counter>
+              <Counter>{tasksList.length}</Counter>
             </TaskTitleCounter>
           </TaskTitleItem>
           <TaskTitleItem>
@@ -66,19 +71,22 @@ export function Home() {
               Finished
             </TaskTitleText>
             <TaskTitleCounter>
-              <Counter>1</Counter>
+              <Counter>{finishedTasksList.length}</Counter>
             </TaskTitleCounter>
           </TaskTitleItem>
         </TasksTitleContent>
         <Separator />
       </TasksTitleContainer>
       <FilterContainer>
-        <FilterBar onFilter={(value: string) => setTasksToRender(value)} />
+        <FilterBar
+          onFilter={(value: string) => setTasksToRender(value)}
+          onChange={(value) => setSearchValue(value)}
+        />
         <Separator />
       </FilterContainer>
       <TasksContainer>
         <FlatList
-          data={getTasksToRender()}
+          data={searchValue ? searchTasks(searchValue) : getTasksToRender()}
           keyExtractor={(item) => item}
           renderItem={({ item }) => <Task key={item} content={item} />}
           showsVerticalScrollIndicator={false}
