@@ -8,6 +8,7 @@ interface TasksContextData {
   unfinishedTasksList: string[]
   handleAddFinishedTask: (newTask: string) => void
   handleRemoveFinishedTask: (taskToRemove: string) => void
+  handleEditTask: (currentTask: string, newContent: string) => void
 }
 
 export const TasksContext = createContext<TasksContextData>(
@@ -50,6 +51,12 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
     )
   }
 
+  function handleEditTask(currentTask: string, newContent: string) {
+    setTasksList((prevState) =>
+      prevState.map((task) => (task === currentTask ? newContent : task)),
+    )
+  }
+
   const TasksContextValue: TasksContextData = {
     tasksList,
     handleAddNewTask,
@@ -58,6 +65,7 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
     unfinishedTasksList,
     handleAddFinishedTask,
     handleRemoveFinishedTask,
+    handleEditTask,
   }
 
   return (

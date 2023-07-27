@@ -8,12 +8,14 @@ import {
   EditIcon,
   IconsContainer,
   TaskContainer,
+  TaskContent,
   TaskText,
   TaskTextContainer,
   TrashIcon,
   UncheckBtn,
 } from './styles'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
+import { EditTaskInput } from './components/EditTaskInput'
 
 interface TaskProps {
   content: string
@@ -28,6 +30,8 @@ export function Task({ content }: TaskProps) {
   } = useContext(TasksContext)
 
   const isTaskFinished = finishedTasksList.includes(content)
+
+  const [openEditTaskInput, setOpenEditTaskInput] = useState(false)
 
   function onHandleRemoveTask() {
     Alert.alert('Remove', `Are you sure you want to remove this task?`, [
@@ -44,24 +48,27 @@ export function Task({ content }: TaskProps) {
 
   return (
     <TaskContainer>
-      <TaskTextContainer>
-        {isTaskFinished ? (
-          <CheckBtn onPress={() => handleRemoveFinishedTask(content)}>
-            <CheckIcon name="check" />
-          </CheckBtn>
-        ) : (
-          <UncheckBtn onPress={() => handleAddFinishedTask(content)} />
-        )}
-        <TaskText>{content}</TaskText>
-      </TaskTextContainer>
-      <IconsContainer>
-        <EditBtn>
-          <EditIcon name="pencil" />
-        </EditBtn>
-        <DeleteBtn onPress={() => onHandleRemoveTask()}>
-          <TrashIcon name="trash-2" />
-        </DeleteBtn>
-      </IconsContainer>
+      <TaskContent>
+        <TaskTextContainer>
+          {isTaskFinished ? (
+            <CheckBtn onPress={() => handleRemoveFinishedTask(content)}>
+              <CheckIcon name="check" />
+            </CheckBtn>
+          ) : (
+            <UncheckBtn onPress={() => handleAddFinishedTask(content)} />
+          )}
+          <TaskText>{content}</TaskText>
+        </TaskTextContainer>
+        <IconsContainer>
+          <EditBtn onPress={() => setOpenEditTaskInput(!openEditTaskInput)}>
+            <EditIcon name="pencil" />
+          </EditBtn>
+          <DeleteBtn onPress={() => onHandleRemoveTask()}>
+            <TrashIcon name="trash-2" />
+          </DeleteBtn>
+        </IconsContainer>
+      </TaskContent>
+      {openEditTaskInput && <EditTaskInput content={content} />}
     </TaskContainer>
   )
 }

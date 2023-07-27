@@ -7,7 +7,7 @@ import React, { useState, useContext } from 'react'
 export function NewTaskInput() {
   const [isFocused, setIsFocused] = useState(false)
   const [newTask, setNewTask] = useState('')
-  const { handleAddNewTask } = useContext(TasksContext)
+  const { handleAddNewTask, tasksList } = useContext(TasksContext)
 
   const handleInputFocus = () => {
     setIsFocused(true)
@@ -27,6 +27,20 @@ export function NewTaskInput() {
           },
         },
       ])
+      return
+    } else if (tasksList.includes(newTask)) {
+      Alert.alert(
+        'Task Already Exists',
+        'A task with the same name already exists.',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              setNewTask('')
+            },
+          },
+        ],
+      )
       return
     }
 

@@ -5,14 +5,20 @@ import IconEdit from 'react-native-vector-icons/Entypo'
 
 export const TaskContainer = styled.View`
   width: 100%;
-  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 12px;
+`
+
+export const TaskContent = styled.View`
   padding: 12px;
+  width: 100%;
+  flex-direction: row;
   background-color: ${({ theme }) => theme.colors.gray_500};
   align-items: center;
   justify-content: space-between;
   border: solid 1px ${({ theme }) => theme.colors.gray_500};
   border-radius: 8px;
-  margin-bottom: 8px;
 `
 
 export const TaskTextContainer = styled.View`
